@@ -1,6 +1,6 @@
 package cards;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Card {
@@ -39,8 +39,8 @@ public class Card {
      * @param deckCount in black jack game can be used more than one deck of cards
      * @return List
      */
-    public static List<Card> getDeck(int deckCount){
-        List<Card> deck = new ArrayList<>();
+    public static LinkedList<Card> getDeck(int deckCount){
+        LinkedList<Card> deck = new LinkedList<>();
         for(int i=0; i<deckCount; i++) {
             for (Suit suit : Suit.values()) {
                 for (int j = 2; j < 15; j++) {
