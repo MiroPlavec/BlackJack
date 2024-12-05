@@ -7,12 +7,10 @@ import java.util.List;
 
 public abstract class Player {
     private String name;
-    private int money;
     private List<Card> cards;
 
-    public Player(String name, int money) {
+    public Player(String name) {
         this.name = name;
-        this.money = money;
         cards = new ArrayList<>();
     }
 
@@ -28,4 +26,5 @@ public abstract class Player {
             cards.remove(0);
         }
     }
+
 }
