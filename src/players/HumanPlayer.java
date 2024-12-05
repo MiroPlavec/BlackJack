@@ -15,6 +15,10 @@ public class HumanPlayer extends Player{
         bet = 0;
     }
 
+    public void addMoneyWon(int moneyWon){
+        money += moneyWon;
+    }
+
     public void makeBet(){
         Scanner scanner = new Scanner(System.in);
         do {
@@ -28,6 +32,14 @@ public class HumanPlayer extends Player{
         if(bet <= money && bet>0) return true;
         System.out.println("Your bet must be in range 1 to " + money + " €.");
         return false;
+    }
+
+    public char makeChoice(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(name + " please select your choice (h)it or (s)tand.");
+        String choice = scanner.nextLine();
+
+        return choice.toUpperCase().charAt(0);
     }
 
     @Override
