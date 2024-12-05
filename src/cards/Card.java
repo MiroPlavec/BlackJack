@@ -36,13 +36,16 @@ public class Card {
 
     /**
      * For every value in Enum <code>Suit</code> create 13 cards.
+     * @param deckCount in black jack game can be used more than one deck of cards
      * @return List
      */
-    public static List<Card> getDeck(){
+    public static List<Card> getDeck(int deckCount){
         List<Card> deck = new ArrayList<>();
-        for(Suit suit : Suit.values()){
-            for(int i=2; i<15; i++){
-                deck.add(getCard(suit, i));
+        for(int i=0; i<deckCount; i++) {
+            for (Suit suit : Suit.values()) {
+                for (int j = 2; j < 15; j++) {
+                    deck.add(getCard(suit, j));
+                }
             }
         }
         return deck;
