@@ -5,7 +5,7 @@ import cards.Card;
 import java.util.Scanner;
 
 public class HumanPlayer extends Player{
-    private final String cardString = name + "`s cards are:";
+
     private int money;
     private int bet;
 
@@ -42,12 +42,16 @@ public class HumanPlayer extends Player{
         return choice.toUpperCase().charAt(0);
     }
 
+    public int getMoney() {
+        return money;
+    }
+
     @Override
-    public void showCards() {
-        System.out.print("%s ".formatted(cardString));
+    public String showCards() {
+        String result = "";
         for(Card card : cards){
-            System.out.print("%s ".formatted(card));
+            result += card.toString();
         }
-        System.out.println();
+        return result;
     }
 }

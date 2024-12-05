@@ -1,8 +1,10 @@
 import cards.Card;
 import players.Dealer;
+import players.HumanPlayer;
 import players.Player;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,12 +17,13 @@ public class BlackJack {
     private int deckCount;
     private Dealer dealer;
     private List<Player> players;
-    private List<Card> cards;
+    private LinkedList<Card> cards;
 
     public BlackJack(int deckCount, String dealerName, List<Player> players) {
         this.deckCount = deckCount;
         this.dealer = new Dealer(dealerName);
         this.players = players;
+        players.add(0, dealer);
     }
 
     public BlackJack(String dealerName) {
@@ -38,7 +41,7 @@ public class BlackJack {
     public boolean addPlayer(Player player){
         if(players.size() == MAX_PLAYERS) return false;
 
-        players.add(player);
+        players.add(1, player);
         return true;
     }
 
@@ -49,8 +52,79 @@ public class BlackJack {
 
     public void startGame(){
         cards = Card.getDeck(deckCount);
+
+        makeCut();
+
+        //makeBet();
+
+        dealCards();
+        RenderScreen.showPlayerWindows(players);
+
+        //showCards();
+
+        hitOrStand();
+
+
+
+
+    }
+
+    private void makeCut(){
+        // cut represents how many cards from the end od our deck are not be used in game
+        // it makes it harder for player who counts card operate effectively
         int cutStart = cards.size()/5;
         int cut = rnd.nextInt(cutStart, cutStart+10);
-        System.out.print(cut);
+        while (cut != 0){
+            cards.removeLast();
+            cut--;
+        }
     }
+
+    public void makeBet(){
+        for(Player player : players){
+            if(player instanceof HumanPlayer humanPlayer){
+                humanPlayer.makeBet();
+            }
+
+        }
+    }
+
+    private void dealCards(){
+        for(int i=0; i<2; i++) {
+            for (Player player : players) {
+                player.takeCard(cards.pop());
+            }
+        }
+    }
+
+    private void showCards(){
+        for(Player player : players){
+            player.showCards();
+        }
+    }
+
+    private void hitOrStand(){
+        for(Player player : players){
+            if(player instanceof HumanPlayer humanPlayer){
+                char choice = 0;
+                while (choice == 0) {
+                    choice = humanPlayer.makeChoice();
+                    if (choice == 'H') {
+                        takeAnotherCar(humanPlayer);
+                        choice = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    private void takeAnotherCar(Player player){
+        player.takeCard(cards.pop());
+        RenderScreen.showPlayerWindows(players);
+    }
+
+    private void showWinner(){
+
+    }
+
 }

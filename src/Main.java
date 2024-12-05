@@ -1,14 +1,14 @@
-import cards.Card;
-import cards.Suit;
-
-import java.util.List;
+import players.HumanPlayer;
+import players.Player;
 
 public class Main {
     public static void main(String[] args) {
 
-        Card card = Card.getCard(Suit.CLUBS, 3);
-        List<Card> deck = Card.getDeck();
-        Card.printDeck(deck, 500);
+        BlackJack blackJack = new BlackJack(1,"Fero");
 
+        Player player = new HumanPlayer("Miro", 10000);
+        blackJack.addPlayer(player);
+
+        blackJack.startGame();
     }
 }
