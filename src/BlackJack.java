@@ -4,10 +4,7 @@ import players.Dealer;
 import players.HumanPlayer;
 import players.Player;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class BlackJack {
 
@@ -46,31 +43,76 @@ public class BlackJack {
         return true;
     }
 
-    public void removePlayer(Player player){
-        if(players.indexOf(player) == -1) return;
-        players.remove(player);
-    }
+
 
     public void startGame(){
 
         cards = Card.getDeck(deckCount);
+        Card.shuffleDeck(cards);
         makeCut();
 
-        makeBet();
 
-        dealCards();
-        RenderScreen.showPlayerWindows(players);
+        while (players.size() > 1) {
+            makeBet();
 
-        hitOrStand();
+            dealCards();
+            RenderScreen.showPlayerWindows(players);
 
-        showDealerSecondCard();
+            hitOrStand();
 
-        RenderScreen.showPlayerWindows(players);
+            showDealerSecondCard();
 
-        dealer.makeMove(cards, players);
+            RenderScreen.showPlayerWindows(players);
+
+            dealer.makeMove(cards, players);
+
+            showWinners();
+
+            clearPlayersHand();
+
+            askToContinue();
+        }
 
 
 
+
+    }
+
+    private void askToContinue(){
+        Scanner scanner = new Scanner(System.in);
+        // iterator
+        Iterator<Player> playerIterator = players.iterator();
+        while(playerIterator.hasNext()){
+            Player player = playerIterator.next();
+            if (player instanceof Dealer) continue;
+            System.out.println("%s do you wanna continue in game ? (yes/no)".formatted(player.getName()));
+            String choice = scanner.nextLine();
+            if(!choice.equals("yes")){
+                System.out.println("Thank you for play " + player.getName() + ", have a nice day.");
+                playerIterator.remove();
+            }
+        }
+    }
+
+    private void clearPlayersHand(){
+        for (Player player : players) {
+            player.clearHands();
+            if(player instanceof Dealer) ((Dealer)player).setShowLastCard(false);
+        }
+    }
+
+    private void showWinners(){
+        int dealerHand = (dealer.getCardsValue() <=21) ? dealer.getCardsValue() : 0;
+        for(Player player : players){
+            if(player instanceof Dealer) continue;
+            int playerHand = player.getCardsValue();
+            if(playerHand > dealerHand && playerHand <= 21){
+                System.out.println(player.getName() + " you won.");
+                ((HumanPlayer)player).addMoneyWon(true);
+            }else{
+                ((HumanPlayer)player).addMoneyWon(false);
+            }
+        }
     }
 
     private void showDealerSecondCard(){
@@ -109,22 +151,9 @@ public class BlackJack {
     private void hitOrStand(){
         for(Player player : players){
             if(player instanceof HumanPlayer humanPlayer){
-                boolean isGameOn = humanPlayer.makeChoice();
-                while (isGameOn){
-                    boolean endPlayerMove = takeAnotherCard(humanPlayer);
-                    if(endPlayerMove) break;
-                    isGameOn = humanPlayer.makeChoice();
-                }
-
+                humanPlayer.makeMove(cards, players);
             }
         }
-    }
-
-    private boolean takeAnotherCard(Player player){
-        boolean endPlayerMove = player.takeCard(cards.pop());
-        RenderScreen.showPlayerWindows(players);
-
-        return endPlayerMove;
     }
 
 }
