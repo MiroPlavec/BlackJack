@@ -74,8 +74,6 @@ public class BlackJack {
         }
 
 
-
-
     }
 
     private void askToContinue(){
@@ -103,16 +101,19 @@ public class BlackJack {
 
     private void showWinners(){
         int dealerHand = (dealer.getCardsValue() <=21) ? dealer.getCardsValue() : 0;
+        boolean noWinner = true;
         for(Player player : players){
             if(player instanceof Dealer) continue;
             int playerHand = player.getCardsValue();
             if(playerHand > dealerHand && playerHand <= 21){
                 System.out.println(player.getName() + " you won.");
                 ((HumanPlayer)player).addMoneyWon(true);
+                noWinner = false;
             }else{
                 ((HumanPlayer)player).addMoneyWon(false);
             }
         }
+        if(noWinner) System.out.println("Dealer won this round.");
     }
 
     private void showDealerSecondCard(){
