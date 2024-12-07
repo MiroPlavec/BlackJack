@@ -1,4 +1,5 @@
 import cards.Card;
+import helpers.RenderScreen;
 import players.Dealer;
 import players.HumanPlayer;
 import players.Player;
@@ -51,22 +52,30 @@ public class BlackJack {
     }
 
     public void startGame(){
-        cards = Card.getDeck(deckCount);
 
+        cards = Card.getDeck(deckCount);
         makeCut();
 
-        //makeBet();
+        makeBet();
 
         dealCards();
         RenderScreen.showPlayerWindows(players);
 
-        //showCards();
-
         hitOrStand();
 
+        showDealerSecondCard();
+
+        RenderScreen.showPlayerWindows(players);
+
+        dealer.makeMove(cards, players);
 
 
 
+    }
+
+    private void showDealerSecondCard(){
+        dealer.setShowLastCard(true);
+        RenderScreen.showPlayerWindows(players);
     }
 
     private void makeCut(){
@@ -97,34 +106,25 @@ public class BlackJack {
         }
     }
 
-    private void showCards(){
-        for(Player player : players){
-            player.showCards();
-        }
-    }
-
     private void hitOrStand(){
         for(Player player : players){
             if(player instanceof HumanPlayer humanPlayer){
-                char choice = 0;
-                while (choice == 0) {
-                    choice = humanPlayer.makeChoice();
-                    if (choice == 'H') {
-                        takeAnotherCar(humanPlayer);
-                        choice = 0;
-                    }
+                boolean isGameOn = humanPlayer.makeChoice();
+                while (isGameOn){
+                    boolean endPlayerMove = takeAnotherCard(humanPlayer);
+                    if(endPlayerMove) break;
+                    isGameOn = humanPlayer.makeChoice();
                 }
+
             }
         }
     }
 
-    private void takeAnotherCar(Player player){
-        player.takeCard(cards.pop());
+    private boolean takeAnotherCard(Player player){
+        boolean endPlayerMove = player.takeCard(cards.pop());
         RenderScreen.showPlayerWindows(players);
-    }
 
-    private void showWinner(){
-
+        return endPlayerMove;
     }
 
 }

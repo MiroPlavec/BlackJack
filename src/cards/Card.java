@@ -1,5 +1,6 @@
 package cards;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,10 @@ public class Card {
         this.rank = rank;
         this.suit = suit;
         this.face = face;
+    }
+
+    public int getRank(){
+        return rank;
     }
 
     /**
@@ -49,6 +54,10 @@ public class Card {
             }
         }
         return deck;
+    }
+
+    public static void shuffleDeck(List<Card> deck){
+        Collections.shuffle(deck);
     }
 
     /**

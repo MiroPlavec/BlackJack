@@ -34,16 +34,20 @@ public class HumanPlayer extends Player{
         return false;
     }
 
-    public char makeChoice(){
+    public boolean makeChoice(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print(name + " please select your choice (h)it or (s)tand.");
+        System.out.println(name + " please select your choice (H)it or (S)tand.");
         String choice = scanner.nextLine();
 
-        return choice.toUpperCase().charAt(0);
+        return choice.toUpperCase().charAt(0) == 'H';
     }
 
     public int getMoney() {
         return money;
+    }
+
+    public int getBet() {
+        return bet;
     }
 
     @Override

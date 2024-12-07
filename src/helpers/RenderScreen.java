@@ -1,3 +1,5 @@
+package helpers;
+
 import players.HumanPlayer;
 import players.Player;
 
@@ -22,9 +24,14 @@ public class RenderScreen {
         System.out.println();
         renderLine(players);
         System.out.println();
+        renderBetPart(players);
+        System.out.println();
+        renderLine(players);
+        System.out.println();
         renderCardPart(players);
         System.out.println();
         renderLine(players);
+        System.out.println();
     }
 
     private static void renderLine(List<Player> players){
@@ -51,10 +58,27 @@ public class RenderScreen {
         for(Player player : players){
             if(player instanceof HumanPlayer humanPlayer) {
                 System.out.print(balanceString);
-                String moneyS = String.valueOf(humanPlayer.getMoney());
+                String moneyS = String.valueOf(humanPlayer.getMoney() - humanPlayer.getBet());
                 System.out.print(" ".repeat(blockWidth * 2 + player.getName().length() - balanceString.length() - moneyS.length() + 1));
                 System.out.print(moneyS + "|");
             }else{
+                System.out.print("|");
+                System.out.print(" ".repeat(blockWidth*2 + player.getName().length()));
+                System.out.print("|");
+            }
+            System.out.print(" ".repeat(5));
+        }
+    }
+
+    private static void renderBetPart(List<Player> players){
+        String betString = "| Bet: ";
+        for (Player player : players){
+            if(player instanceof HumanPlayer humanPlayer){
+                System.out.print(betString);
+                String betS = String.valueOf(humanPlayer.getBet());
+                System.out.print(" ".repeat(blockWidth*2 + humanPlayer.getName().length() - betString.length() - betS.length() + 1));
+                System.out.print(betS + "|");
+            }else {
                 System.out.print("|");
                 System.out.print(" ".repeat(blockWidth*2 + player.getName().length()));
                 System.out.print("|");
