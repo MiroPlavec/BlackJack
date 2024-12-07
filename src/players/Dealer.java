@@ -32,12 +32,8 @@ public class Dealer extends Player{
     }
 
 
-
-
-
     // take cards until you hit 21 or until you have the highest score
     public void makeMove(LinkedList<Card> cards, List<Player> players){
-        boolean endMoves = false;
 
         //int[] playersHands = new int[players.size() - 1];
         int maxHand = 0;
@@ -48,7 +44,7 @@ public class Dealer extends Player{
         }
 
         int dealerHand = getCardsValue();
-        while(dealerHand < maxHand || dealerHand <= 21){
+        while(dealerHand <= 21 && dealerHand < maxHand){
             takeCard(cards.pop());
             RenderScreen.showPlayerWindows(players);
             dealerHand = getCardsValue();

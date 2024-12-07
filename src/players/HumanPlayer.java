@@ -1,7 +1,10 @@
 package players;
 
 import cards.Card;
+import helpers.RenderScreen;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class HumanPlayer extends Player{
@@ -32,6 +35,18 @@ public class HumanPlayer extends Player{
         if(bet <= money && bet>0) return true;
         System.out.println("Your bet must be in range 1 to " + money + " €.");
         return false;
+    }
+
+    public void makeMove(LinkedList<Card> deck, List<Player> players){
+
+        boolean isGameOn = makeChoice();
+        while (isGameOn){
+            cards.add(deck.pop());
+            int playerHand = getCardsValue();
+            RenderScreen.showPlayerWindows(players);
+            if(playerHand > 21) break;
+            isGameOn = makeChoice();
+        }
     }
 
     public boolean makeChoice(){
