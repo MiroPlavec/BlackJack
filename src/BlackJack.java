@@ -17,23 +17,23 @@ public class BlackJack {
     private List<Player> players;
     private LinkedList<Card> cards;
 
-    public BlackJack(int deckCount, String dealerName, List<Player> players) {
+    public BlackJack(int deckCount, List<Player> players) {
         this.deckCount = deckCount;
-        this.dealer = new Dealer(dealerName);
+        this.dealer = new Dealer("DEALER");
         this.players = players;
         players.add(0, dealer);
     }
 
-    public BlackJack(String dealerName) {
-        this(6, dealerName, new ArrayList<>());
+    public BlackJack() {
+        this(6, new ArrayList<>());
     }
 
-    public BlackJack(String dealerName, List<Player> players){
-        this(6, dealerName, players);
+    public BlackJack(List<Player> players){
+        this(6, players);
     }
 
-    public BlackJack(int deckCount, String dealerName){
-        this(deckCount, dealerName, new ArrayList<>());
+    public BlackJack(int deckCount){
+        this(deckCount, new ArrayList<>());
     }
 
     public boolean addPlayer(Player player){

@@ -5,15 +5,17 @@ import players.Player;
 
 import java.util.List;
 
-public class RenderScreen {
+public abstract class RenderScreen {
 
     private static int blockWidth = 10;
+
 
     public static void showMenu(){
 
     }
 
     public static void showPlayerWindows(List<Player> players){
+        clearConsole();
         renderLine(players);
         System.out.println();
         renderNamePart(players);
@@ -32,6 +34,10 @@ public class RenderScreen {
         System.out.println();
         renderLine(players);
         System.out.println();
+    }
+
+    private static void clearConsole(){
+        System.out.print("\n".repeat(50));
     }
 
     private static void renderLine(List<Player> players){
@@ -89,7 +95,7 @@ public class RenderScreen {
 
     private static void renderCardPart(List<Player> players){
         for(Player player : players){
-            String cards = "|" + player.showCards();
+            String cards = "| " + player.showCards();
             System.out.print(cards);
             System.out.print(" ".repeat(blockWidth*2 + player.getName().length() - cards.length() + 1));
             System.out.print("|");

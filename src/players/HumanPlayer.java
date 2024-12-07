@@ -18,8 +18,11 @@ public class HumanPlayer extends Player{
         bet = 0;
     }
 
-    public void addMoneyWon(int moneyWon){
-        money += moneyWon;
+    public void addMoneyWon(Boolean win){
+        if(win) money += bet;
+        else money -= bet;
+
+        bet = 0;
     }
 
     public void makeBet(){

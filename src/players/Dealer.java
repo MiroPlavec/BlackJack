@@ -5,6 +5,7 @@ import helpers.RenderScreen;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Dealer extends Player{
 
@@ -35,7 +36,6 @@ public class Dealer extends Player{
     // take cards until you hit 21 or until you have the highest score
     public void makeMove(LinkedList<Card> cards, List<Player> players){
 
-        //int[] playersHands = new int[players.size() - 1];
         int maxHand = 0;
         for(Player player : players){
             if(player instanceof Dealer) continue;
@@ -48,6 +48,12 @@ public class Dealer extends Player{
             takeCard(cards.pop());
             RenderScreen.showPlayerWindows(players);
             dealerHand = getCardsValue();
+
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
